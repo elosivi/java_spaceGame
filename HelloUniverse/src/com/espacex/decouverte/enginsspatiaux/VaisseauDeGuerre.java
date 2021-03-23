@@ -2,7 +2,7 @@ package com.espacex.decouverte.enginsspatiaux;
 
 
 public class VaisseauDeGuerre extends Vaisseau {
-    public boolean armesDesactivees;
+    private boolean armesDesactivees; // only modified by desactiverArmes or
 
     public VaisseauDeGuerre(TypeVaisseau typeVaisseau){
         this.type = typeVaisseau;
@@ -36,6 +36,11 @@ public class VaisseauDeGuerre extends Vaisseau {
     public void desactiverArmes(){
         this.armesDesactivees = true;
         System.out.println("Désactivation des armes d'un vaisseau de type "+ this.type.name());
+    }
+
+    public void activerArmes(){
+        this.armesDesactivees = false;
+        System.out.println("Activation des armes d'un vaisseau de type "+ this.type.name());
     }
 
     public void activerBouclier(){

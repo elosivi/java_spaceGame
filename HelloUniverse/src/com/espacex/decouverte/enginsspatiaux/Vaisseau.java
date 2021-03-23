@@ -1,12 +1,12 @@
 package com.espacex.decouverte.enginsspatiaux;
 
 public abstract class Vaisseau {
-    public TypeVaisseau type;
+    public static TypeVaisseau type;
     public int blindage;
     public int nbPassagers;
     public int resistanceDuBouclier;
     public int tonnageMax;
-    public int tonnageActuel;
+    protected int tonnageActuel; // can be modified only by emporterCargaison
     private static int nbVaisseaux ;
 
     Vaisseau(){

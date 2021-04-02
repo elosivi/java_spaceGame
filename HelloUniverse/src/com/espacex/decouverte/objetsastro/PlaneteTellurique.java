@@ -7,6 +7,10 @@ import com.espacex.decouverte.enginsspatiaux.Vaisseau;
 
 import java.util.Arrays;
 
+/**
+ * the PlaneteTellurique class implements telluric planets,
+ * habitable and accostable planet
+ */
 public class PlaneteTellurique extends Planete implements Habitable {
 
     public int totalVisiteurs;
@@ -17,6 +21,11 @@ public class PlaneteTellurique extends Planete implements Habitable {
     //Vaisseau[civil/guerre][places for this cat]
     public Vaisseau[][] vaisseauxAccostes;
 
+    /**
+     * constructor
+     * @param nom
+     * @param tailleBaie
+     */
     public PlaneteTellurique(String nom, int tailleBaie) {
         super(nom);
         this.tailleBaie= tailleBaie;
@@ -24,6 +33,12 @@ public class PlaneteTellurique extends Planete implements Habitable {
         this.civilPlacesLibres = this.guerrePlacesLibres = tailleBaie;
     }
 
+    /**
+     * The HowManyCivilFreePlaces() method verify if there is available place for a civil ship
+     * in the arrayList vaisseauxAccostes[0]
+     * modify civilPlacesLibres attribute
+     * @see com.espacex.decouverte.objetsastro.PlaneteTellurique#restePlaceDisponible
+     */
     public void HowManyCivilFreePlaces() {
         for (int place = 0; place < vaisseauxAccostes[0].length; place++) {
             if (vaisseauxAccostes[0][place] == null) {
@@ -31,7 +46,12 @@ public class PlaneteTellurique extends Planete implements Habitable {
             }
         }
     }
-
+    /**
+     * The HowManyWarFreePlaces() method verify if there is available place for a war ship
+     * in the arrayList vaisseauxAccostes[1]
+     * modify guerrePlacesLibres attribute
+     * @see com.espacex.decouverte.objetsastro.PlaneteTellurique#restePlaceDisponible
+     */
     public void HowManyWarFreePlaces() {
         for (int place = 0; place < vaisseauxAccostes[1].length; place++) {
             if (vaisseauxAccostes[1][place] == null) {
@@ -40,7 +60,12 @@ public class PlaneteTellurique extends Planete implements Habitable {
         }
     }
 
-    // Before starships dock on the planet : the bay is it full?
+    /**
+     * The restePlaceDisponible() method
+     * Before starships dock on the planet : the bay is it full ?
+     * @param typeVaisseau
+     * @return true (bay is free) or false (bay is full)
+     */
     public boolean restePlaceDisponible(TypeVaisseau typeVaisseau) {
         boolean civil = false;
         switch (typeVaisseau) {
@@ -60,7 +85,12 @@ public class PlaneteTellurique extends Planete implements Habitable {
         return false;
     }
 
-    // override the instance Habitable
+    /**
+     * the accueillirVaisseaux() method override the instance Habitable
+     * this method verify if there is anought place for each starship pass in param
+     * @param nouveauxVaisseaux (varargs)
+     */
+//
     @Override
     public void accueillirVaisseaux(Vaisseau... nouveauxVaisseaux) {
         // Send to the player info about the free places;

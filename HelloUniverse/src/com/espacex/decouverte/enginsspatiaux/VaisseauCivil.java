@@ -1,7 +1,15 @@
 package com.espacex.decouverte.enginsspatiaux;
 
+/**
+ * child of " Vaisseau "
+ * this class have no child
+ */
 public class VaisseauCivil extends Vaisseau {
 
+    /**
+     * constructor who determines the type of vessel and tonnageMax
+     * @param typeVaisseau
+     */
     public VaisseauCivil(TypeVaisseau typeVaisseau){
         this.type = typeVaisseau;
         switch (this.type){
@@ -14,11 +22,15 @@ public class VaisseauCivil extends Vaisseau {
         /*System.out.println("\nNOUVEAU VAISSEAU CIVIL #"+ this.setNbVaisseaux()
                 +" de type : "+ this.type + " | cargo ton max: "+ this.tonnageMax); // Test*/
     }
-
+    /**
+     * This method is a mother method
+     * this method verify and allow to take away cargo :
+     * Cargo is authorized only if tonnageActuel + tonnage <= tonnageMax
+     * This method modify changes the current tonnage of the vessel
+     * @param tonnage
+     * @return the quantity refused
+     */
     @Override
-    /*Cargo is authorized only if:
-     *  total actualCargo + new tonnage <= tonnageMax
-     * */
     public int emporterCargaison(int tonnage) {
         System.out.println(" CHECK :\nTon tonnage actuel "+ this.tonnageActuel + " VS ton tonnage max: " + tonnageMax); // test
         int quantiteRefusee;

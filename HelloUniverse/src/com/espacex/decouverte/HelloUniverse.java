@@ -8,11 +8,24 @@ import com.espacex.decouverte.enginsspatiaux.VaisseauDeGuerre;
 import com.espacex.decouverte.objetsastro.*;
 import java.util.*;
 
+/**
+ * the main class
+ */
 public class HelloUniverse {
 
     public static void main(String... args) {
 
-        // ////////////////////////////   S O L A R    S Y S T E M    ////////////////////////////////// //
+// ////////////////////////////   S O L A R    S Y S T E M    ////////////////////////////////// //
+        /**
+         * creation of the solar system:
+         * 4 telluric planets : Mercure, Venus, Terre, Mars
+         * @see PlaneteTellurique
+         * 4 gas planets : Jupiter, Uranus, Saturne, Neptune
+         * @see PlaneteGazeuse
+         * 1 galaxie : systemeSolaire
+         * @see Galaxie
+         */
+
         PlaneteTellurique Mercure = new PlaneteTellurique("Mercure", 0);
         Mercure.diametre = 4880;
         Mercure.distanceEtoile = 57.91f;
@@ -61,6 +74,13 @@ public class HelloUniverse {
 
 
         // ////////////////////////////   S T A R S H I P S    ////////////////////////////////// //
+
+        /**
+         * Création of starships, can be civil or war type
+         * @see VaisseauCivil
+         * @see VaisseauDeGuerre
+         *
+         */
         VaisseauDeGuerre chasseur = new VaisseauDeGuerre(CHASSEUR);
         chasseur.blindage = 156;
         chasseur.resistanceDuBouclier = 2;
@@ -90,14 +110,32 @@ public class HelloUniverse {
 
         ////////////////////////////////////  F I R S T    P L A Y   //////////////////////////////////
 
+        /**
+         * game initialization
+         * On planet terre there is allready some ships
+         */
         // 2 chasseurs + 1 cargo, on Terre
         Terre.accueillirVaisseaux(chasseur, chasseur2, cargo);
 
 
         //////////////////////////////////// U S E R    P L A Y ////////////////////////////////////
 
-        String playAgain;
 
+        String playAgain;
+/**
+ * While the variable playAgain is set to "oui", player can play and play again
+ * The play:
+ *  1- player choose a starship : {@link HelloUniverse#choisirVaisseau()}
+ *  the type of the ship chosen is verified
+ *  If it's not an authorized type, player is invited to choose a new vessel
+ *
+ *  2- player choose a planet : {@link HelloUniverse#choisirPlanete()}
+ *  the planet chosen is verified (type, dock available,...),
+ *  If it's not an authorized planet, player is invited to choose a new planet
+ *
+ * 3- if planet chosen is ok, player can choose is cargo (in ton) : {@link HelloUniverse.choisirChargement()}
+ *
+ */
         do {
 
             /*  1 / 3
@@ -202,9 +240,13 @@ public class HelloUniverse {
 
 
     /////////////////////////////////     F U N C T I O N S      C H O O S E     ///////////////////////////////////////////////////
-    /*
-     * Choose a spaceship
-     * */
+
+    /**
+     * This method listen the ship chosen by the player in the terminal, verify if this type of ship exist
+     * if not: player is invited to choose an other ship
+     * if yes: the ship chosen is returned
+     * @return the ship chosen by player (String vaisseauChoisi)
+     */
     public static String choisirVaisseau() {
         //spaceship existing
         String[] vaisseauxCivils = {"CARGO", "VAISSEAUMONDE"};
@@ -234,9 +276,10 @@ public class HelloUniverse {
         return null;
     }
 
-    /*
-     * Choose a planet
-     * */
+    /**
+     * This method listen the planet chosen by the player in the terminal, verify if this type of planet is a valid planet
+     * @return the planet chosen by player (String maPlanete)
+     */
     public static String choisirPlanete() {
 
         //listen user
@@ -244,26 +287,24 @@ public class HelloUniverse {
         Scanner scPlanete = new Scanner(System.in);
         String result = scPlanete.nextLine().toLowerCase(Locale.ROOT);
         String maPlanete = result.substring(0, 1).toUpperCase() + result.substring(1);
-        // check before return
-//        if(maPlanete<0 || maPlanete>7 || maPlanete != (int)maPlanete){
-//            System.out.println("Réponse invalide, on retente ?!");
-//            choisirPlanete();
-//        }
-        // return
-        /*if(maPlanete.equals("Terre")){
-            return "La Terre";
-        }*/
+
         return maPlanete;
     }
 
-    /*
-     * Choose a cargo
-     * */
+    /**
+     * This method listen the ton of cargo chosen by the player in the terminal,
+     * @return the ton of cargo chosen
+     */
     public static int choisirChargement() {
         System.out.println(" \n Combien de tonne(s) de chargement souhaites tu embarquer ? :  ... ");
         Scanner scCargo = new Scanner(System.in);
         return scCargo.nextInt(); // return an int about my cargo
     }
+
+    /**
+     * The DoYouWantPlayAgain() method invite player to play again
+     * @return "oui" "non" or other answer
+     */
 
     public static String DoYouWantPlayAgain() {
         System.out.println("Voulez vous recommencer? oui/non");
@@ -273,6 +314,12 @@ public class HelloUniverse {
         return result; // oui, non, autre
     }
 
+    /**
+     * The playerPlayAgainOrNot() method analyse player answer
+     * if answer is not yes or no, player is invited to answer again
+     * @see HelloUniverse#DoYouWantPlayAgain()
+     * @param reponsePlayer
+     */
     public static void playerPlayAgainOrNot(String reponsePlayer){
         if(reponsePlayer.equals("non")){
             System.out.println(" Ok Bye!");

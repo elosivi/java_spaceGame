@@ -14,13 +14,14 @@ public class Galaxie {
     /**
      * constructor #1
      */
+
     public Galaxie(){
 
     };
 
     /**
      * constructor #2
-     * @param nouvellePlanete
+     * @param nouvellePlanete which is a Planet object, the new planet added to the galaxies
      */
     public Galaxie(Planete nouvellePlanete){
         planetes.add(nouvellePlanete);
@@ -29,9 +30,10 @@ public class Galaxie {
 
     /**
      * constructor #3
-     * @param nom
-     * @param nouvellesPlanetes
+     * @param nom : a String which is the name of the galaxie
+     * @param nouvellesPlanetes : a list of planet object to add to the galaxie
      */
+
     public Galaxie(String nom, Planete... nouvellesPlanetes) {
 
         this.nom= nom;

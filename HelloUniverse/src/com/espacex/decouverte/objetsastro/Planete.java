@@ -52,10 +52,11 @@ public abstract class Planete implements Comparable{
 
     /**
      * revolution of the planet
+     * this method is final to prevent alteration of the calculation formula
      * @param degres
      * @return the nbr of the planet's lap completed
      */
-    int revolution(int degres) {
+    final int revolution(int degres) {
     //  System.out.println("Je suis la planète "+ nom + " et je tourne autour de mon étoile");
         int round = degres / 360;
         return round;
@@ -63,10 +64,11 @@ public abstract class Planete implements Comparable{
 
     /**
      * rotation of the planet
+     * this method is final to prevent alteration of the calculation formula
      * @param degres
      * @return the nbr of the planet's lap completed
      */
-    int rotation(int degres) {
+    final int rotation(int degres) {
     //  System.out.println("Je suis la planète "+ nom + " et je tourne sur moi même");
         int round = degres / 360;
         return round;

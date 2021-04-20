@@ -93,14 +93,6 @@ public class PlaneteTellurique extends Planete implements Habitable {
 //
     @Override
     public void accueillirVaisseaux(Vaisseau... nouveauxVaisseaux) {
-        // Send to the player info about the free places;
-        System.out.println("\n ----------------\nACCUEILLIR " + nouveauxVaisseaux.length + " VAISSEAUX sur " + this.nom + ": ");
-        System.out.println("La baie de " + this.nom + " peut accueillir " + this.tailleBaie + " vaisseaux civils et "
-                + this.tailleBaie + " vaisseaux de guerre.");
-        System.out.println("Il reste :" + civilPlacesLibres + " place/s libre/s pour les vaisseaux civils \net "
-                + guerrePlacesLibres + " place/s libre/s pour les vaisseaux de guerre.\n ");
-
-
         // loop on each new starship
         for (int i = 0; i < nouveauxVaisseaux.length; i++) {
 
@@ -144,8 +136,8 @@ public class PlaneteTellurique extends Planete implements Habitable {
             }
 
         }
-        System.out.println("\n La planète " + this.nom + " accueille désormais: " + Arrays.deepToString(vaisseauxAccostes)); // Test
-        System.out.println("Il lui reste: " + civilPlacesLibres + " place/s pour des vaisseaux civils, et " + guerrePlacesLibres + " pour des vaisseaux de Guerre.\n");
+        System.out.println(" ( INFO : Desormais il reste sur cette planete : " + civilPlacesLibres +
+                " place/s pour des vaisseaux civils, et " + guerrePlacesLibres + " pour des vaisseaux de Guerre.)\n");
     }
 
 

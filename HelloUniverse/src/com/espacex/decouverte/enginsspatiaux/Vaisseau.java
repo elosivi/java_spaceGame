@@ -6,27 +6,27 @@ package com.espacex.decouverte.enginsspatiaux;
  * @see <b>VaisseauDeGuerre</b> : child class
  */
 public abstract class Vaisseau {
-    public static TypeVaisseau type;
+    public final TypeVaisseau type;
     public int blindage;
     public int nbPassagers;
     public int resistanceDuBouclier;
     public int tonnageMax;
-    protected int tonnageActuel; // can be modified only by emporterCargaison
+    public int tonnageActuel; // can be modified only by emporterCargaison
     private int nbVaisseaux ;
 
     /**
      * constructor
      */
-    Vaisseau(){
+    protected Vaisseau(TypeVaisseau type) {
+        this.type = type;
         nbVaisseaux++;
     }
 
     /**
      * @see VaisseauCivil and VaisseauDeGuerre classes wich override this method
      * @param tonnage
-     * @return
      */
-    public abstract int emporterCargaison(int tonnage);
+    public abstract void emporterCargaison(int tonnage) throws DepassementTonnageException, NbPassagersInsuffisantException, CargoSupNbPassagersException;
 
     /**
      * @see VaisseauCivil and VaisseauDeGuerre classes wich override this method

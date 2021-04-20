@@ -10,10 +10,10 @@ public class VaisseauDeGuerre extends Vaisseau {
 
     /**
      * constructor who determines the type of vessel and tonnageMax
-     * @param typeVaisseau
+     * @param type (object typeVaisseau)
      */
-    public VaisseauDeGuerre(TypeVaisseau typeVaisseau){
-        this.type = typeVaisseau;
+    public VaisseauDeGuerre(TypeVaisseau type){
+        super(type);
 
         switch (this.type){
              case FREGATE: this.tonnageMax = 50; break;
@@ -71,37 +71,40 @@ public class VaisseauDeGuerre extends Vaisseau {
     }
 
     /**
-     * This method is a mother method
+     * This method is a mother method and throws 3 exceptions.
      * this method verify and allow to take away cargo :
      * Cargo is authorized only if there is min 12 passengers on bord
+     * @see NbPassagersInsuffisantException
      * Then, spaceship can refuse all or a part of the cargo if :
      *     the tonnageMax is reach
+     * @see DepassementTonnageException
      *     or if tonnage > nbPassagers*2
+     * @see CargoSupNbPassagersException
+     *
      * This method modify changes the current tonnage of the vessel
-     * @param tonnage
-     * @return the quantity refused
+     * @param tonnage, tonnage of the new cargo to take away
      */
     @Override
-    public int emporterCargaison(int tonnage) {
-            int quantiteRefusee;
-        System.out.println(" Check: \n ton tonnage actuel "+ this.tonnageActuel + " VS ton tonnage max: " + tonnageMax); // test
-        //System.out.println("De plus, en tant que Vaisseau de Guerre ayant " + nbPassagers+ " passagers à son bord, tu es limité à: "+ );
-            if (nbPassagers>=12){
-                if(tonnageActuel+tonnage > tonnageMax){
-                    quantiteRefusee = tonnageActuel+tonnage-tonnageMax;
-                    tonnageActuel = tonnageActuel + (tonnage-quantiteRefusee); // tonnageActuel = tonnageMax
-                }else if(tonnage > nbPassagers*2){
-                    quantiteRefusee = tonnage-(nbPassagers*2);
-                    tonnageActuel += (tonnage-quantiteRefusee);
-                }else{
-                    quantiteRefusee = 0;
-                    tonnageActuel += tonnage;
-                }
-            }else{
-                quantiteRefusee = tonnage;
+    public void emporterCargaison(int tonnage) throws DepassementTonnageException, NbPassagersInsuffisantException, CargoSupNbPassagersException{
+        if(nbPassagers<12) {
+            throw new NbPassagersInsuffisantException();
+        }
+
+        if((nbPassagers>=12)&&(tonnage < nbPassagers*2)){
+            throw new CargoSupNbPassagersException();
+        }
+
+        if ((nbPassagers>=12)&&(tonnage > nbPassagers*2)) {
+            System.out.println(" Check... (tonnage actuel "+ this.tonnageActuel + " ... ton tonnage max: " + tonnageMax +
+                    " ... nb passagers à bord: "+nbPassagers+" ...)"); // test
+            if ((tonnageActuel + tonnage > tonnageMax)) {
+                int tonnageEnExces = -tonnageMax - (tonnageActuel + tonnage);
+                throw new DepassementTonnageException(tonnageEnExces);
             }
-            System.out.println("   Quantité refusée : "+ quantiteRefusee);
-            return quantiteRefusee;
+
+        }
+        this.tonnageActuel += tonnage;
+        System.out.println("Nouveau tonnage: "+ tonnageActuel);
     }
 }
 

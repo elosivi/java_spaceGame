@@ -32,24 +32,13 @@ public class VaisseauCivil extends Vaisseau {
      */
     @Override
     public void emporterCargaison(int tonnage) throws DepassementTonnageException{
-        System.out.println(" CHECK ... (Ton tonnage actuel "+ this.tonnageActuel + " ... ton tonnage max: " + tonnageMax+" )"); // test
-//        int quantiteRefusee;
-//        if ((tonnageActuel + tonnage <= tonnageMax)) {
-//            quantiteRefusee = 0;
-//            tonnageActuel += tonnage;
-//        }else{
-//            quantiteRefusee = (tonnageActuel+tonnage)-tonnageMax;
-//            tonnageActuel += (tonnage-quantiteRefusee); // tonnageActuel = tonnageMax
-//        }
-//        System.out.println("Nouveau tonnage: "+tonnageActuel );
-//        System.out.println("Quantité refusée : "+ quantiteRefusee);
-//        return quantiteRefusee;
+        System.out.println(" ...CHECKING ... tonnage actuel "+ this.tonnageActuel + " ... tonnage max: " + tonnageMax+" ..."); // test
 
         if((tonnageActuel + tonnage > tonnageMax)){
             int tonnageEnExces = tonnageMax - (tonnageActuel + tonnage);
             throw new DepassementTonnageException(tonnageEnExces);
         }
         tonnageActuel += tonnage;
-        System.out.println("Nouveau tonnage: "+ tonnageActuel);
+        System.out.println("Checking ok ! \n Ton nouveau tonnage est de "+ tonnageActuel +"t.");
     }
 }

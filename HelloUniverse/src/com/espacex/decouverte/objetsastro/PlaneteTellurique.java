@@ -74,12 +74,12 @@ public class PlaneteTellurique extends Planete implements Habitable {
                 civil = true;
         }
         if (civil && civilPlacesLibres > 0) {
-            System.out.println("... tu peux accoster ton vaisseau civil !");
+            //System.out.println("... tu peux accoster ton vaisseau civil !");
             return true;
         }
 
         if (!civil && guerrePlacesLibres > 0) {
-            System.out.println("... tu peux accoster ton vaisseau de guerre!");
+            //System.out.println("... tu peux accoster ton vaisseau de guerre!");
             return true;
         }
         return false;
@@ -136,7 +136,7 @@ public class PlaneteTellurique extends Planete implements Habitable {
             }
 
         }
-        System.out.println(" ( INFO : Desormais il reste sur cette planete : " + civilPlacesLibres +
+        System.out.println("INFO PLANETE :\n      Desormais il reste sur cette planete : " + civilPlacesLibres +
                 " place/s pour des vaisseaux civils, et " + guerrePlacesLibres + " pour des vaisseaux de Guerre.)\n");
     }
 

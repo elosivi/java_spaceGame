@@ -5,6 +5,7 @@ import com.espacex.decouverte.enginsspatiaux.*;
 import static com.espacex.decouverte.enginsspatiaux.TypeVaisseau.*;
 
 import com.espacex.decouverte.objetsastro.*;
+
 import java.util.*;
 
 /**
@@ -41,15 +42,15 @@ public class HelloUniverse {
         Mars.diametre = 6792;
         Mars.distanceEtoile = 227.9f;
         Atmosphere atmosphereMars = new Atmosphere();
-        atmosphereMars.constituants.put("CO2", 95f );
-        atmosphereMars.constituants.put("N2", 3f );
-        atmosphereMars.constituants.put("AR", 1.5f );
-        atmosphereMars.constituants.put("NO", 0.013f );
+        atmosphereMars.constituants.put("CO2", 95f);
+        atmosphereMars.constituants.put("N2", 3f);
+        atmosphereMars.constituants.put("AR", 1.5f);
+        atmosphereMars.constituants.put("NO", 0.013f);
         Mars.atmosphere = atmosphereMars;
 
-        System.out.println("L'atmosphère de "+ Mars.nom + " est constituée de :");
-        for (Map.Entry taux : atmosphereMars.constituants.entrySet()){
-            System.out.println( taux.getValue()+"% de "+ taux.getKey());
+        System.out.println("L'atmosphère de " + Mars.nom + " est constituée de :");
+        for (Map.Entry taux : atmosphereMars.constituants.entrySet()) {
+            System.out.println(taux.getValue() + "% de " + taux.getKey());
         }
 
 
@@ -124,44 +125,49 @@ public class HelloUniverse {
         String playAgain;
 /**
  * While the variable playAgain is set to "oui", player can play and play again
+ * {@link HelloUniverse#doYouWantPlayAgain()}
+ * {@link HelloUniverse#playerPlayAgainOrNot(String)}
+ *
  * The play:
- *  1- player choose a starship : {@link HelloUniverse#choisirVaisseau()}
+ *  step 1- player choose a starship :
+ *  {@link HelloUniverse#choisirVaisseau()}
  *  the type of the ship chosen is verified
  *  If it's not an authorized type, player is invited to choose a new vessel
  *
- *  2- player choose a planet : {@link HelloUniverse#choisirPlanete()}
+ *  step 2- player choose a planet : {@link HelloUniverse#choisirPlanete()}
  *  the planet chosen is verified (type, dock available,...),
  *  If it's not an authorized planet, player is invited to choose a new planet
  *
  * 3- if planet chosen is ok, player can choose is cargo (in ton) : {@link HelloUniverse.choisirChargement()}
  *
  */
+
+        /*      step 1 / 3       *       C H O O S E       S P A C E S H I P     *
+         * ask user to indicate witch spaceship he wants, indicating the type
+         * Check the value
+         * if validated, memorize it
+         */
+
         do {
-
-            /*  1 / 3
-             * C H O O S E       S P A C E S H I P
-             * ask user to indicate witch spaceship he wants, indicating the type
-             */
-
             String monVaisseau = choisirVaisseau();
             Vaisseau vaisseauChoisi = null;
 
             if (monVaisseau != null) {
                 switch (monVaisseau) {
                     case "CARGO":
-                        vaisseauChoisi=cargo;
+                        vaisseauChoisi = cargo;
                         break;
                     case "VAISSEAUMONDE":
-                        vaisseauChoisi=vaisseauMonde;
+                        vaisseauChoisi = vaisseauMonde;
                         break;
                     case "CHASSEUR":
-                        vaisseauChoisi=chasseur;
+                        vaisseauChoisi = chasseur;
                         break;
                     case "FREGATE":
-                        vaisseauChoisi=fregate;
+                        vaisseauChoisi = fregate;
                         break;
                     case "CROISEUR":
-                        vaisseauChoisi=croiseur;
+                        vaisseauChoisi = croiseur;
                         break;
                     default:
                         vaisseauChoisi = null;
@@ -169,37 +175,44 @@ public class HelloUniverse {
                 }
 
             }
-            System.out.println("Tu as choisi un vaisseau de type: " + vaisseauChoisi.type.name());// Test
+
+            // if vaisseauChoisi is allready null...
+            try{
+                System.out.println("... Embarquement immédiat à bord d'un vaisseau de type " + vaisseauChoisi.type.name() + "...");
+            }catch(NullPointerException ue){
+                System.out.println("oups! Le vaisseau est null...");
+                doYouWantPlayAgain();
+            }
 
 
-            /*  2 / 3
-             * C H O O S E       A     P L A N E T
-             * 2.1 ask the user on which planet he would like to dock, indicating the name
+            /*    step 2 / 3     *      C H O O S E       A     P L A N E T     *
+             * Ask the user on which planet he would like to dock, indicating the name
+             * Check the value
+             * if validated, memorize it
              */
-            // planets authorized
-            String[] PlanetesTelluriques = {"Mercure", "Venus","Terre", "Mars"};
-            System.out.println(Arrays.toString(PlanetesTelluriques));
+
 
             // planete choosen
             String maPlanete = choisirPlanete();
-            System.out.println("tu as choisi d'accoster sur "+ maPlanete);
+            System.out.println("...Accostage sur " + maPlanete + " en cours ...");
 
             // Check if planete choosen is valid and find the object Planete with the same name
             Planete planeteChoisie = null;
             Iterator<Planete> it = systemeSolaire.planetes.iterator();
-            while(it.hasNext()){
+            while (it.hasNext()) {
                 Planete p = it.next();
-                if (maPlanete.equals(p.nom)){
+                if (maPlanete.equals(p.nom)) {
                     planeteChoisie = p;
                     break;
                 }
             }
-            if (planeteChoisie == null){
+            if (planeteChoisie == null) {
                 System.out.println("Désolée je ne connais pas cette planète du système solaire! ");
                 choisirPlanete();
             }
 
             // witch kind of planete ? Is it validated ?
+            String[] PlanetesTelluriques = {"Mercure", "Venus", "Terre", "Mars"};
             boolean tellurique = Arrays.asList(PlanetesTelluriques).contains(planeteChoisie.nom);
 
 
@@ -209,50 +222,33 @@ public class HelloUniverse {
             }
 
             // ok name and type of planet are valid...
-                // 2.1 Verify if the dock is full or not, if yes : forbid the ship to dock
-                if (!((PlaneteTellurique)planeteChoisie).restePlaceDisponible(vaisseauChoisi.type)) {
-                    System.out.println("" +
-                            "Le vaisseau ne peut pas se poser sur la planete par manque de place dans la baie");
-                // play again
-                playAgain = DoYouWantPlayAgain();
+            // Verify if the dock is full or not,
+            // if yes : forbid the ship to dock and play again
+            if (!((PlaneteTellurique) planeteChoisie).restePlaceDisponible(vaisseauChoisi.type)) {
+                System.out.println("" +
+                        "Le vaisseau ne peut pas se poser sur la planete par manque de place dans la baie");
+                playAgain = doYouWantPlayAgain();
 
-                } else {
-                    ((PlaneteTellurique)planeteChoisie).accueillirVaisseaux(vaisseauChoisi);
-                    System.out.println( "Pour rappel: ");
-                    System.out.println( "Le tonnage max de ton vaisseau est de: "+ vaisseauChoisi.tonnageMax + "t");
-                    System.out.println( "Ton tonnage actuel est de: "+ vaisseauChoisi.tonnageActuel + "t");
-                    System.out.println( "Le nb de passagers à ton bord est de: "+vaisseauChoisi.nbPassagers);
+                // if not : ok planet choosen validated, continue and choose the cargo...
+            } else {
+                ((PlaneteTellurique) planeteChoisie).accueillirVaisseaux(vaisseauChoisi);
+                System.out.println("INFO VAISSEAU (pour rappel) :");
+                System.out.println("     Le tonnage max de ton vaisseau est de: " + vaisseauChoisi.tonnageMax + "t");
+                System.out.println("     Ton tonnage actuel est de: " + vaisseauChoisi.tonnageActuel + "t");
+                System.out.println("     Le nb de passagers à ton bord est de: " + vaisseauChoisi.nbPassagers);
 
-                    /*  3 / 3
-                     * C H O O S E       A      C A R G O
-                     * ask the user how much cargo he would like to load
-                     */
+                /*  3 / 3   *       C H O O S E       A      C A R G O      *
+                 * ask the user how much cargo he would like to load
+                 * Check the value
+                 * if validated, memorize it
+                 */
 
-//                    monChargement = choisirChargement();
-//
-//                    // Résultat
-//                    System.out.println("Avec ton " + monVaisseau + " tu souhaite accoster sur " + maPlanete
-//                            + " et embarquer " + monChargement + "tonne/s de chargement ");
-//
-//                    ((PlaneteTellurique)planeteChoisie).accueillirVaisseaux(vaisseauChoisi);
-//                    System.out.println("...demande d' accord en cours ...");
+                choisirChargement(vaisseauChoisi, planeteChoisie);
+            }
 
-                    //TODO en cours
-//                    int monChargement = choisirChargement(vaisseauChoisi,planeteChoisie);
-//
-//                    try{
-//                        vaisseauChoisi.emporterCargaison(monChargement);
-//                    }catch(Exception ex){
-//                        System.out.println(ex.getMessage());
-//                        choisirChargement(vaisseauChoisi,planeteChoisie);
-//                    }
-                    choisirChargement(vaisseauChoisi,planeteChoisie);
-
-
-                }
-            //play again
-            playAgain = DoYouWantPlayAgain();
-        } while ( playAgain.equals("oui") );
+            // the session is successful does the player want to replay?
+            playAgain = doYouWantPlayAgain();
+        } while (playAgain.equals("oui"));
     }
 
 
@@ -262,6 +258,7 @@ public class HelloUniverse {
      * This method listen the ship chosen by the player in the terminal, verify if this type of ship exist
      * if not: player is invited to choose an other ship
      * if yes: the ship chosen is returned
+     *
      * @return the ship chosen by player (String vaisseauChoisi)
      */
     public static String choisirVaisseau() {
@@ -269,102 +266,119 @@ public class HelloUniverse {
         String[] vaisseauxCivils = {"CARGO", "VAISSEAUMONDE"};
         String[] vaisseauxDeGuerre = {"FREGATE", "CROISEUR", "CHASSEUR"};
 
-        System.out.println("\n" + Arrays.toString(values()) + " ??? "); //test
-        //listen user
-        System.out.println(" A TOI DE JOUER !!! Choisi un vaisseau :  ... ");
+        //listen user choice
+        System.out.println("--------------------------------------------");
+        System.out.println("           A     T O I     D E     J O U E R   ! ! !");
+        System.out.println("------------------   1   ------------------ \n " +
+                "Choisi un vaisseau : ");
+        System.out.println(Arrays.toString(values()));
+
+
+        // Starship choose is it a null object ?
+
+;
         Scanner scPlanete = new Scanner(System.in);
         String monVaisseau = scPlanete.nextLine();
 
         // switch in good format
         String vaisseauChoisi = monVaisseau.toUpperCase();
-        //System.out.println(monVaisseau+ " --> "+ vaisseauChoisi); // Test
 
         // witch type of spaceship ? is it validated ?
         boolean civil = Arrays.asList(vaisseauxCivils).contains(vaisseauChoisi);
         boolean deGuerre = Arrays.asList(vaisseauxDeGuerre).contains(vaisseauChoisi);
 
         if (civil || deGuerre) {
-            return vaisseauChoisi;
+            return vaisseauChoisi; // si input invalid avant ne retourne plus ici
         } else {
             System.out.println("Désolée ce type de vaisseau n'existe pas ... ! ");
-            choisirVaisseau();
+            return choisirVaisseau();
         }
 
-        return null;
     }
 
     /**
-     * This method listen the planet chosen by the player in the terminal, verify if this type of planet is a valid planet
+     * This method listen the planet chosen by the player in the terminal,
+     * verify if this type of planet is a valid planet
+     *
      * @return the planet chosen by player (String maPlanete)
      */
     public static String choisirPlanete() {
+        // planets authorized
+        System.out.println("------------------   2   ------------------");
+        System.out.println(" Maintenant choisi une planete :");
+        String[] PlanetesTelluriques = {"Mercure", "Venus", "Terre", "Mars"};
+        System.out.println(Arrays.toString(PlanetesTelluriques));
 
-        //listen user
-        System.out.println(" \n ... ok ! maintenant choisi une planete : ... ");
-        Scanner scPlanete = new Scanner(System.in);
-        String result = scPlanete.nextLine().toLowerCase(Locale.ROOT);
-        String maPlanete = result.substring(0, 1).toUpperCase() + result.substring(1);
+        //listen player choice
+        String maPlanete=null;
+
+        try {
+            Scanner scPlanete = new Scanner(System.in);
+            String result = scPlanete.nextLine().toLowerCase(Locale.ROOT);
+            maPlanete = result.substring(0, 1).toUpperCase() + result.substring(1);
+        } catch (NullPointerException npe) {
+            System.out.println("Petite erreur on dirait ! Merci d'entrer un nom valide, allez... rejoue !");
+            choisirPlanete();
+        }
 
         return maPlanete;
     }
+
 
     /**
      * This method listen the ton of cargo chosen by the player in the terminal,
      * check if an exception is thrown
      * if yes, offers the player to enter a new quantity
-     * @see
-     * @return the ton of cargo chosen
+     * if cargo is validated, play is finished, player can play again
+     * @param monVaisseau, the starship choosen by the player in step 1
+     * @param maPlanete, the planet choosen by the player in step 2
      */
     public static void choisirChargement(Vaisseau monVaisseau, Planete maPlanete) {
-        System.out.println(" \n Combien de tonne(s) de chargement souhaites tu embarquer ? :  ... ");
-        Scanner scCargo = new Scanner(System.in);
-        int monChargement = scCargo.nextInt();
-//        System.out.println("Avec ton " + monVaisseau.type.name() + " tu souhaite accoster sur " + maPlanete.nom
-//                + " et embarquer " + monChargement + "tonne/s de chargement ");
+        System.out.println("------------------   3   ------------------");
+        System.out.println(" Dernière étape... Combien de tonne(s) de chargement souhaites tu embarquer ? :  ... ");
 
+        // listen player
+        int monChargement=0;
+        // scanner is it an int ?...
+        try {
+            Scanner scCargo = new Scanner(System.in);
+            monChargement = scCargo.nextInt();
+        }catch(InputMismatchException in){
+            System.out.println("Petite erreur on dirait ! Merci d'entrer un nombre entier, allez... rejoue !");
+            choisirChargement(monVaisseau,maPlanete);
+        }
+        //scanner is an int ...
         System.out.println("...demande d' accord en cours ...");
-        try{
+
+        // verify if this cargo is authorized
+        try {
             monVaisseau.emporterCargaison(monChargement);
-        }catch(DepassementTonnageException dep){
+        } catch (DepassementTonnageException dep) {
             System.out.println(dep.getMessage());
             System.out.println("Souhaites-tu choisir une autre cargaison? (oui / non) ");
             Scanner sc = new Scanner(System.in);
             String result = sc.nextLine().toLowerCase(); // yes, no, other
-            if(result.equals("oui")){
-                choisirChargement(monVaisseau,maPlanete);
-            }else{
+            if (result.equals("oui")) {
+                choisirChargement(monVaisseau, maPlanete);
+            } else {
                 System.out.println(" // operation annulée //");
-                DoYouWantPlayAgain();
+                doYouWantPlayAgain();
             }
             ;
-        }catch(Exception ex){
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
-            DoYouWantPlayAgain();
-        }
+            doYouWantPlayAgain();
+        } // the 2nd cacth will not be accepted by udemy because don't know the 2 other exceptions
     }
 
-    /**
-     * Check chargement.
-     * This method was created to allow player replay if the 1st cargo choosen is invalid (throw an exception)
-     * @param monVaisseau the mon vaisseau, the spaceship choosen by the player
-     * @param maPlanete   the ma planete, the planet choosen by the player
-     */
-//    public static void checkChargement(Vaisseau monVaisseau, Planete maPlanete){
-//        int monChargement = choisirChargement();
-//
-//        // Résultat
-//        System.out.println("Avec ton " + monVaisseau.type + " tu souhaite accoster sur " + maPlanete.nom
-//                + " et embarquer " + monChargement + "tonne/s de chargement ");
-//        ((PlaneteTellurique)maPlanete).accueillirVaisseaux(monVaisseau);
-//        System.out.println("...demande d' accord en cours ...");
-//    }
 
     /**
-     * The DoYouWantPlayAgain() method invite player to play again
+     * The doYouWantPlayAgain() method invite player to play again
+     *
      * @return "oui" "non" or other answer
      */
 
-    public static String DoYouWantPlayAgain() {
+    public static String doYouWantPlayAgain() {
         System.out.println(" \n * * *    On continue ???  * * *\n (Voulez vous rejouer? oui/non)\n");
         Scanner sc = new Scanner(System.in);
         String result = sc.nextLine().toLowerCase();
@@ -375,16 +389,17 @@ public class HelloUniverse {
     /**
      * The playerPlayAgainOrNot() method analyse player answer
      * if answer is not yes or no, player is invited to answer again
-     * @see HelloUniverse#DoYouWantPlayAgain()
+     *
      * @param reponsePlayer
+     * @see HelloUniverse#doYouWantPlayAgain()
      */
-    public static void playerPlayAgainOrNot(String reponsePlayer){
-        if(reponsePlayer.equals("non")){
+    public static void playerPlayAgainOrNot(String reponsePlayer) {
+        if (reponsePlayer.equals("non")) {
             System.out.println(" Ok Bye!");
             return;
-        }else if( !reponsePlayer.equals("oui")){
-            System.out.println(" Désolée je ne comprends pas votre réponse: "+ reponsePlayer);
-            DoYouWantPlayAgain();
+        } else if (!reponsePlayer.equals("oui")) {
+            System.out.println(" Désolée je ne comprends pas votre réponse: " + reponsePlayer);
+            doYouWantPlayAgain();
         }
     }
 }

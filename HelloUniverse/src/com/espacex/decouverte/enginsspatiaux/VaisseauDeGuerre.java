@@ -85,13 +85,19 @@ public class VaisseauDeGuerre extends Vaisseau {
      * @param tonnage, tonnage of the new cargo to take away
      */
     @Override
-    public void emporterCargaison(int tonnage) throws DepassementTonnageException, NbPassagersInsuffisantException, CargoSupNbPassagersException{
+//  public void emporterCargaison(int tonnage) throws DepassementTonnageException, NbPassagersInsuffisantException, CargoSupNbPassagersException{
+    public void emporterCargaison(int tonnage) throws DepassementTonnageException {
         if(nbPassagers<12) {
-            throw new NbPassagersInsuffisantException();
+//            throw new NbPassagersInsuffisantException();
+            //System.out.println("nb passagers insuffisants "); // pour udemy car ne prend pas en charge qu'1 seule exception
+            throw new DepassementTonnageException(tonnage);
         }
 
-        if((nbPassagers>=12)&&(tonnage < nbPassagers*2)){
-            throw new CargoSupNbPassagersException();
+        if((nbPassagers>=12)&&(tonnage < nbPassagers*2)) {
+//            throw new CargoSupNbPassagersException();
+            //System.out.println("tonnage superieur à la quantité autorisée ( " + nbPassagers * 2 + "t ) " +
+             //       "pour ce nombre de passagers ( " + nbPassagers + " )"); // pour udemy car ne prend pas en charge qu'1 seule exception
+            throw new DepassementTonnageException(tonnage);
         }
 
         if ((nbPassagers>=12)&&(tonnage > nbPassagers*2)) {

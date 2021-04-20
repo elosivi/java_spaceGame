@@ -122,7 +122,7 @@ public class HelloUniverse {
         //////////////////////////////////// U S E R    P L A Y ////////////////////////////////////
 
 
-        String playAgain;
+
 /**
  * While the variable playAgain is set to "oui", player can play and play again
  * {@link HelloUniverse#doYouWantPlayAgain()}
@@ -147,7 +147,7 @@ public class HelloUniverse {
          * Check the value
          * if validated, memorize it
          */
-
+        String playAgain = null;
         do {
             String monVaisseau = choisirVaisseau();
             Vaisseau vaisseauChoisi = null;
@@ -211,22 +211,15 @@ public class HelloUniverse {
                 choisirPlanete();
             }
 
-//            // witch kind of planete ? Is it validated ?
-//            String[] PlanetesTelluriques = {"Mercure", "Venus", "Terre", "Mars"};
-//            boolean tellurique = Arrays.asList(PlanetesTelluriques).contains(planeteChoisie.nom);
-
-
-//            if (!tellurique) {
-//                System.out.println("Désolée cette planète ne peut pas accueillir de vaisseau, elle est ... gazeuse! ");
-//                choisirPlanete();
-//            }
 
             // ok name and type of planet are valid...
+
             // Verify if the dock is full or not,
             // if yes : forbid the ship to dock and play again
             if (!((PlaneteTellurique) planeteChoisie).restePlaceDisponible(vaisseauChoisi.type)) {
                 System.out.println("" +
                         "Le vaisseau ne peut pas se poser sur la planete par manque de place dans la baie");
+                System.out.println("test1");
                 playAgain = doYouWantPlayAgain();
 
                 // if not : ok planet choosen validated, continue and choose the cargo...
@@ -243,11 +236,17 @@ public class HelloUniverse {
                  * if validated, memorize it
                  */
 
-                choisirChargement(vaisseauChoisi, planeteChoisie);
+                choisirChargement(vaisseauChoisi);
             }
 
             // the session is successful does the player want to replay?
-            playAgain = doYouWantPlayAgain();
+
+            if( playAgain == null ) {
+                System.out.println("test test test / playAgain=" + playAgain);
+                playAgain = doYouWantPlayAgain();
+            }
+
+
         } while (playAgain.equals("oui"));
     }
 
@@ -277,8 +276,8 @@ public class HelloUniverse {
         // Starship choose is it a null object ?
 
         ;
-        Scanner scPlanete = new Scanner(System.in);
-        String monVaisseau = scPlanete.nextLine();
+        Scanner scV = new Scanner(System.in);
+        String monVaisseau = scV.nextLine();
 
         // switch in good format
         String vaisseauChoisi = monVaisseau.toUpperCase();
@@ -339,23 +338,25 @@ public class HelloUniverse {
      * if cargo is validated, play is finished, player can play again
      *
      * @param monVaisseau, the starship choosen by the player in step 1
-     * @param maPlanete,   the planet choosen by the player in step 2
      */
-    public static void choisirChargement(Vaisseau monVaisseau, Planete maPlanete) {
+    public static void choisirChargement(Vaisseau monVaisseau) {
         System.out.println("------------------   3   ------------------");
         System.out.println(" Dernière étape... Combien de tonne(s) de chargement souhaites tu embarquer ? :  ... ");
 
         // listen player
         int monChargement = 0;
+
         // scanner is it an int ?...
         try {
             Scanner scCargo = new Scanner(System.in);
             monChargement = scCargo.nextInt();
         } catch (InputMismatchException in) {
             System.out.println("Petite erreur on dirait ! Merci d'entrer un nombre entier, allez... rejoue !");
-            choisirChargement(monVaisseau, maPlanete);
+            choisirChargement(monVaisseau);
+            return;
         }
-        //scanner is an int ...
+
+        //ok, scanner is an int ...
         System.out.println("...demande d' accord en cours ...");
 
         // verify if this cargo is authorized
@@ -367,7 +368,8 @@ public class HelloUniverse {
             Scanner sc = new Scanner(System.in);
             String result = sc.nextLine().toLowerCase(); // yes, no, other
             if (result.equals("oui")) {
-                choisirChargement(monVaisseau, maPlanete);
+                choisirChargement(monVaisseau);
+                return;
             } else {
                 System.out.println(" // operation annulée //");
                 doYouWantPlayAgain();

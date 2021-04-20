@@ -35,7 +35,7 @@ public class VaisseauCivil extends Vaisseau {
         System.out.println(" ...CHECKING ... tonnage actuel "+ this.tonnageActuel + " ... tonnage max: " + tonnageMax+" ..."); // test
 
         if((tonnageActuel + tonnage > tonnageMax)){
-            int tonnageEnExces = tonnageMax - (tonnageActuel + tonnage);
+            int tonnageEnExces =  (tonnageActuel + tonnage)-tonnageMax;
             throw new DepassementTonnageException(tonnageEnExces);
         }
         tonnageActuel += tonnage;

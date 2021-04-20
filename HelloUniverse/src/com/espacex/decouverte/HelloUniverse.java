@@ -219,7 +219,6 @@ public class HelloUniverse {
             if (!((PlaneteTellurique) planeteChoisie).restePlaceDisponible(vaisseauChoisi.type)) {
                 System.out.println("" +
                         "Le vaisseau ne peut pas se poser sur la planete par manque de place dans la baie");
-                System.out.println("test1");
                 playAgain = doYouWantPlayAgain();
 
                 // if not : ok planet choosen validated, continue and choose the cargo...
@@ -242,7 +241,6 @@ public class HelloUniverse {
             // the session is successful does the player want to replay?
 
             if( playAgain == null ) {
-                System.out.println("test test test / playAgain=" + playAgain);
                 playAgain = doYouWantPlayAgain();
             }
 

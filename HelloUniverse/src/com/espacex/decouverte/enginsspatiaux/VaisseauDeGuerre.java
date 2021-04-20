@@ -21,8 +21,6 @@ public class VaisseauDeGuerre extends Vaisseau {
              case CHASSEUR: this.tonnageMax = 0; break;
         }
 
-        /*System.out.println("\nNOUVEAU VAISSEAU DE GUERRE #"+this.setNbVaisseaux()+" de type : "
-                + this.type + "| cargo ton max: "+ this.tonnageMax); // test*/
     }
 
     /**
@@ -102,9 +100,9 @@ public class VaisseauDeGuerre extends Vaisseau {
 
         if ((nbPassagers>=12)&&(tonnage > nbPassagers*2)) {
             System.out.println(" Check... (tonnage actuel "+ this.tonnageActuel + " ... ton tonnage max: " + tonnageMax +
-                    " ... nb passagers à bord: "+nbPassagers+" ...)"); // test
+                    " ... nb passagers à bord: "+nbPassagers+" ...)");
             if ((tonnageActuel + tonnage > tonnageMax)) {
-                int tonnageEnExces = -tonnageMax - (tonnageActuel + tonnage);
+                int tonnageEnExces =  (tonnageActuel + tonnage)-tonnageMax;
                 throw new DepassementTonnageException(tonnageEnExces);
             }
 

@@ -177,9 +177,9 @@ public class HelloUniverse {
             }
 
             // if vaisseauChoisi is allready null...
-            try{
+            try {
                 System.out.println("... Embarquement immédiat à bord d'un vaisseau de type " + vaisseauChoisi.type.name() + "...");
-            }catch(NullPointerException ue){
+            } catch (NullPointerException ue) {
                 System.out.println("oups! Le vaisseau est null...");
                 doYouWantPlayAgain();
             }
@@ -211,15 +211,15 @@ public class HelloUniverse {
                 choisirPlanete();
             }
 
-            // witch kind of planete ? Is it validated ?
-            String[] PlanetesTelluriques = {"Mercure", "Venus", "Terre", "Mars"};
-            boolean tellurique = Arrays.asList(PlanetesTelluriques).contains(planeteChoisie.nom);
+//            // witch kind of planete ? Is it validated ?
+//            String[] PlanetesTelluriques = {"Mercure", "Venus", "Terre", "Mars"};
+//            boolean tellurique = Arrays.asList(PlanetesTelluriques).contains(planeteChoisie.nom);
 
 
-            if (!tellurique) {
-                System.out.println("Désolée cette planète ne peut pas accueillir de vaisseau, elle est ... gazeuse! ");
-                choisirPlanete();
-            }
+//            if (!tellurique) {
+//                System.out.println("Désolée cette planète ne peut pas accueillir de vaisseau, elle est ... gazeuse! ");
+//                choisirPlanete();
+//            }
 
             // ok name and type of planet are valid...
             // Verify if the dock is full or not,
@@ -276,7 +276,7 @@ public class HelloUniverse {
 
         // Starship choose is it a null object ?
 
-;
+        ;
         Scanner scPlanete = new Scanner(System.in);
         String monVaisseau = scPlanete.nextLine();
 
@@ -307,21 +307,28 @@ public class HelloUniverse {
         System.out.println("------------------   2   ------------------");
         System.out.println(" Maintenant choisi une planete :");
         String[] PlanetesTelluriques = {"Mercure", "Venus", "Terre", "Mars"};
+        String[] PlanetesGazeuses = {"Jupiter","Saturne","Uranus","Neptune"};
         System.out.println(Arrays.toString(PlanetesTelluriques));
 
+
         //listen player choice
-        String maPlanete=null;
+        Scanner scPlanete = new Scanner(System.in);
+        String result = scPlanete.nextLine().toLowerCase(Locale.ROOT);
+        String maPlanete = result.substring(0, 1).toUpperCase() + result.substring(1);
 
-        try {
-            Scanner scPlanete = new Scanner(System.in);
-            String result = scPlanete.nextLine().toLowerCase(Locale.ROOT);
-            maPlanete = result.substring(0, 1).toUpperCase() + result.substring(1);
-        } catch (NullPointerException npe) {
-            System.out.println("Petite erreur on dirait ! Merci d'entrer un nom valide, allez... rejoue !");
-            choisirPlanete();
+        //check kind of planet, if tellurique ok, if not replay
+        boolean tellurique = Arrays.asList(PlanetesTelluriques).contains(maPlanete);
+        boolean gazeuse = Arrays.asList(PlanetesGazeuses).contains(maPlanete);
+
+        if (tellurique) {
+            return maPlanete;
+        } else if(gazeuse) {
+            System.out.println("Oups cette planète est gazeuse, c'est un peu risqué tu ne crois pas ?! ");
+            return choisirPlanete();
+        } else {
+            System.out.println("Désolée je ne connais pas cette planète du système solaire! ");
+            return choisirPlanete();
         }
-
-        return maPlanete;
     }
 
 
@@ -330,22 +337,23 @@ public class HelloUniverse {
      * check if an exception is thrown
      * if yes, offers the player to enter a new quantity
      * if cargo is validated, play is finished, player can play again
+     *
      * @param monVaisseau, the starship choosen by the player in step 1
-     * @param maPlanete, the planet choosen by the player in step 2
+     * @param maPlanete,   the planet choosen by the player in step 2
      */
     public static void choisirChargement(Vaisseau monVaisseau, Planete maPlanete) {
         System.out.println("------------------   3   ------------------");
         System.out.println(" Dernière étape... Combien de tonne(s) de chargement souhaites tu embarquer ? :  ... ");
 
         // listen player
-        int monChargement=0;
+        int monChargement = 0;
         // scanner is it an int ?...
         try {
             Scanner scCargo = new Scanner(System.in);
             monChargement = scCargo.nextInt();
-        }catch(InputMismatchException in){
+        } catch (InputMismatchException in) {
             System.out.println("Petite erreur on dirait ! Merci d'entrer un nombre entier, allez... rejoue !");
-            choisirChargement(monVaisseau,maPlanete);
+            choisirChargement(monVaisseau, maPlanete);
         }
         //scanner is an int ...
         System.out.println("...demande d' accord en cours ...");
